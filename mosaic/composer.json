@@ -1,0 +1,24 @@
+{
+    "name": "hobbynote/mosaic",
+    "description": "hobbynote mosaic bundle",
+    "keywords": [
+        "hobbynote",
+        "bundle"
+    ],
+    "homepage": "http://hobbynote.com",
+    "authors" : [
+        {
+            "name": "hobbynote"
+        }
+    ],
+    "minimum-stability":"dev",
+    "require":{
+        
+    },
+    "autoload":
+    {
+        "psr-4": {
+            "Hobbynote\\": "src/"
+        }
+    }
+}
