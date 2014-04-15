@@ -1,0 +1,9 @@
+/.settings
+/.project
+/.buildpath
+/.git
+/nbproject
+/satis.phar
+/vendor
+/phpunit.xml
+composer.phar
