@@ -1,4 +1,4 @@
 mosaic bundle
 ===============
 
-hobbynote mosaicbundle2
+hobbynote mosaicbundle
