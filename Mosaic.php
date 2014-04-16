@@ -29,7 +29,7 @@ class Mosaic {
         }
         */
         $fopen = fopen($this->dest_params, "w+");
-        fwrite($open, json_encode($file));
+        fwrite($fopen, json_encode($file));
         fclose($fopen);
     }
     
