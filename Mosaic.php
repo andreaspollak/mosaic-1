@@ -30,7 +30,7 @@ class Mosaic {
             while($y <= $this->source_size[0]) {
                 $zone['x'] = $x;
                 $zone['y'] = $y;
-                $zone['colors'] = $this->dominant_color(50,50);
+                $zone['colors'] = $this->dominant_color($x,$y);
                 array_push($file['pictures'], $zone);
                 $y = $y+$zone_size[0];
             }
@@ -75,14 +75,18 @@ class Mosaic {
          */
     }
     
-    public function dominant_color($imagex,$imagey) {
+    public function dominant_color($startx,$starty) {
+        $startx = $startx+1;
+        $starty = $starty+1;
+        $imagex = $startx+$this->zone_size[1];
+        $imagey = $starty+$this->zone_size[0];
         $i = imagecreatefromjpeg($this->source);
         $color['r'] = '';
         $color['g'] = '';
         $color['b'] = '';
         $total = '';
-        for ($x=0;$x<$imagex;$x++) {
-            for ($y=0;$y<$imagey;$y++) {
+        for ($x=$startx;$x<$imagex;$x++) {
+            for ($y=$starty;$y<$imagey;$y++) {
                 $rgb = imagecolorat($i, $x, $y);
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
