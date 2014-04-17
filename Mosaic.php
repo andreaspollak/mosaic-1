@@ -30,7 +30,7 @@ class Mosaic {
             while($y <= $this->source_size[0]) {
                 $zone['x'] = $x;
                 $zone['y'] = $y;
-                $zone['colors'] = dominant_color();
+                $zone['colors'] = $this->dominant_color(50,50);
                 array_push($file['pictures'], $zone);
                 $y = $y+$zone_size[0];
             }
@@ -75,25 +75,39 @@ class Mosaic {
          */
     }
     
-    public function dominant_color() {
+    public function dominant_color($imagex,$imagey) {
         $i = imagecreatefromjpeg($this->source);
-        $color['rouge'] = '';
-        $color['bleu'] = '';
-        $color['gris'] = '';
+        $color['r'] = '';
+        $color['g'] = '';
+        $color['b'] = '';
         $total = '';
-        for ($x=0;$x<imagesx($i);$x++) {
-            for ($y=0;$y<imagesy($i);$y++) {
+        for ($x=0;$x<$imagex;$x++) {
+            for ($y=0;$y<$imagey;$y++) {
                 $rgb = imagecolorat($i, $x, $y);
                 $r = ($rgb >> 16) & 0xFF;
                 $g = ($rgb >> 8) & 0xFF;
                 $b = $rgb & 0xFF;
-                $color['rouge'] += $r;
-                $color['gris'] += $g;
-                $color['bleu'] += $b;
+                $color['r'] += $r;
+                $color['g'] += $g;
+                $color['b'] += $b;
                 $total++;
             }
         }
-        return $color;
+        $color['r'] = round($color['r']/$total);
+        $color['g'] = round($color['g']/$total);
+        $color['b'] = round($color['b']/$total);
+        return convertColor(",", $color);
+    }
+    
+    public function convertColor($color){
+        if(!is_array($color) && preg_match("/^[#]([0-9a-fA-F]{6})$/",$color)){
+            $hex_R = substr($color,1,2);
+            $hex_G = substr($color,3,2);
+            $hex_B = substr($color,5,2);
+            $RGB = hexdec($hex_R).",".hexdec($hex_G).",".hexdec($hex_B);
+
+            return $RGB;
+        }
     }
     
     /* TODO */
