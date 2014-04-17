@@ -42,7 +42,10 @@ class Mosaic {
             $result['intpu_size'] = $input_size;
         }
         
-        return $result;
+        $fopen = fopen($this->dest_params, "w+");
+        $fread = file_gets_content($this->dest_params);
+        
+        return $fread;
     }
 }
 
