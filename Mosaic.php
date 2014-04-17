@@ -96,18 +96,15 @@ class Mosaic {
         $color['r'] = round($color['r']/$total);
         $color['g'] = round($color['g']/$total);
         $color['b'] = round($color['b']/$total);
-        return convertColor(",", $color);
+        return $this->RGBToHex(round($color['r']/$total),round($color['g']/$total),round($color['b']/$total));
     }
     
-    public function convertColor($color){
-        if(!is_array($color) && preg_match("/^[#]([0-9a-fA-F]{6})$/",$color)){
-            $hex_R = substr($color,1,2);
-            $hex_G = substr($color,3,2);
-            $hex_B = substr($color,5,2);
-            $RGB = hexdec($hex_R).",".hexdec($hex_G).",".hexdec($hex_B);
-
-            return $RGB;
-        }
+    public function RGBToHex($r, $g, $b) {
+        $hex = "#";
+        $hex.= str_pad(dechex($r), 2, "0", STR_PAD_LEFT);
+        $hex.= str_pad(dechex($g), 2, "0", STR_PAD_LEFT);
+        $hex.= str_pad(dechex($b), 2, "0", STR_PAD_LEFT);
+        return $hex;
     }
     
     /* TODO */
