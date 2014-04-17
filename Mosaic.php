@@ -26,11 +26,11 @@ class Mosaic {
         
         $x = 0;
         $y = 0;
-        while($x <= $this->source_size[1]) {
-            while($y <= $this->source_size[0]) {
+        while($x <= ($this->source_size[1]-$this->zone_size[1])) {
+            while($y <= ($this->source_size[0]-$this->zone_size[0])) {
                 $zone['x'] = $x;
                 $zone['y'] = $y;
-                $zone['colors'] = $this->dominant_color($x,$y);
+                //$zone['colors'] = $this->dominant_color($x,$y);
                 array_push($file['pictures'], $zone);
                 $y = $y+$zone_size[0];
             }
@@ -76,8 +76,8 @@ class Mosaic {
     }
     
     public function dominant_color($startx,$starty) {
-        $startx = $startx+1;
-        $starty = $starty+1;
+        $startx = $startx;
+        $starty = $starty;
         $imagex = $startx+$this->zone_size[1];
         $imagey = $starty+$this->zone_size[0];
         $i = imagecreatefromjpeg($this->source);
@@ -86,23 +86,15 @@ class Mosaic {
         $color['b'] = '';
         $total = '';
         for ($x=$startx;$x<$imagex;$x++) {
-            if($x < $this->source_size[1]) {
-                for ($y=$starty;$y<$imagey;$y++) {
-                    if($y < $this->source_size[0]) {
-                        $rgb = imagecolorat($i, $x, $y);
-                        $r = ($rgb >> 16) & 0xFF;
-                        $g = ($rgb >> 8) & 0xFF;
-                        $b = $rgb & 0xFF;
-                        $color['r'] += $r;
-                        $color['g'] += $g;
-                        $color['b'] += $b;
-                        $total++;
-                    } else {
-                        break;
-                    }
-                }
-            } else {
-                break;
+            for ($y=$starty;$y<$imagey;$y++) {
+                $rgb = imagecolorat($i, $x, $y);
+                $r = ($rgb >> 16) & 0xFF;
+                $g = ($rgb >> 8) & 0xFF;
+                $b = $rgb & 0xFF;
+                $color['r'] += $r;
+                $color['g'] += $g;
+                $color['b'] += $b;
+                $total++;
             }
         }
         $color['r'] = round($color['r']/$total);
