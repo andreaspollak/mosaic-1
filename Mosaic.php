@@ -86,15 +86,23 @@ class Mosaic {
         $color['b'] = '';
         $total = '';
         for ($x=$startx;$x<$imagex;$x++) {
-            for ($y=$starty;$y<$imagey;$y++) {
-                $rgb = imagecolorat($i, $x, $y);
-                $r = ($rgb >> 16) & 0xFF;
-                $g = ($rgb >> 8) & 0xFF;
-                $b = $rgb & 0xFF;
-                $color['r'] += $r;
-                $color['g'] += $g;
-                $color['b'] += $b;
-                $total++;
+            if($x < $this->source_size[1]) {
+                for ($y=$starty;$y<$imagey;$y++) {
+                    if($y < $this->source_size[0]) {
+                        $rgb = imagecolorat($i, $x, $y);
+                        $r = ($rgb >> 16) & 0xFF;
+                        $g = ($rgb >> 8) & 0xFF;
+                        $b = $rgb & 0xFF;
+                        $color['r'] += $r;
+                        $color['g'] += $g;
+                        $color['b'] += $b;
+                        $total++;
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                break;
             }
         }
         $color['r'] = round($color['r']/$total);
